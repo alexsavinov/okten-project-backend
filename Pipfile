@@ -4,6 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+celery = {extras = ["redis"], version = "*"}
+django-celery-results = "*"
+tzdata = "*"
 
 [dev-packages]
 isort = "*"

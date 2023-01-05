@@ -2,6 +2,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 
 from utils.school_util import SchoolUtils
+from django.utils.translation import gettext_lazy as _
 
 
 class CityModel(models.Model):
@@ -41,6 +42,16 @@ class SchoolModel(models.Model):
         verbose_name_plural = 'Catalog of schools'
         ordering = ['name', ]
 
+    class LearnFormat(models.TextChoices):
+        ONLINE = 'ONLINE', _('Online')
+        OFFLINE = 'OFFLINE', _('Offline')
+
+    learn_format = models.CharField(
+        max_length=7,
+        choices=LearnFormat.choices,
+        default=LearnFormat.ONLINE,
+    )
+
     name = models.CharField(max_length=100, validators=[
         # RegexValidator(r'^[A-Za-z][A-Za-z0-9_\s]{2,100}$')
     ], blank=False)
@@ -54,7 +65,7 @@ class SchoolModel(models.Model):
     # city = models.ForeignKey(CityModel, on_delete=models.CASCADE, related_name='cities')
     cities = models.ManyToManyField(CityModel, related_name='cities')
     ages = models.ManyToManyField(AgeModel, related_name='ages')
-    logo = models.ImageField(upload_to=SchoolUtils.upload_to, blank=True)
+    logo = models.ImageField(upload_to=SchoolUtils.upload_to, blank=True, default="")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
