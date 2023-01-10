@@ -30,7 +30,7 @@ class SchoolSerializer(ModelSerializer):
         model = SchoolModel
         # read_only = ('logo',)
         fields = (
-            'id', 'name', 'about', 'about', 'logo',
+            'id', 'name', 'about', 'about', 'logo', 'learn_format',
             'created_at', 'updated_at',
             'cities', 'ages'
         )
