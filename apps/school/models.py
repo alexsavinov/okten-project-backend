@@ -4,6 +4,21 @@ from django.db import models
 from utils.school_util import SchoolUtils
 from django.utils.translation import gettext_lazy as _
 
+# name / Назва школи
+# priority / Пріоритет
+# logo / Лого
+# about / Про школу
+# city / Місто
+# homework / Перевірка ДЗ
+# certificate / Сертифікат
+# internship / Стажування
+# site / Сайт
+# facebook / Фейсбук
+# instagram / Інстаграм
+# telegram / Телеграм
+# tiktok / Тікток
+# youtube / Ютюб
+# comment / Залишити коментар
 
 class CityModel(models.Model):
     class Meta:
@@ -34,6 +49,18 @@ class AgeModel(models.Model):
     def __str__(self):
         return self.name
 
+class LearnFormat(models.Model):
+    class Meta:
+        db_table = 'learn_formats'
+        verbose_name = 'Learn formats'
+        verbose_name_plural = 'Learn format'
+        ordering = ['name', ]
+
+    name = models.CharField(max_length=30, blank=False)
+
+    def __str__(self):
+        return self.name
+
 
 class SchoolModel(models.Model):
     class Meta:
@@ -42,15 +69,16 @@ class SchoolModel(models.Model):
         verbose_name_plural = 'Catalog of schools'
         ordering = ['name', ]
 
-    class LearnFormat(models.TextChoices):
-        ONLINE = 'ONLINE', _('Online')
-        OFFLINE = 'OFFLINE', _('Offline')
+    # class LearnFormat(models.TextChoices):
+    #     ONLINE = 'ONLINE', _('Online')
+    #     OFFLINE = 'OFFLINE', _('Offline')
+    #
+    # learn_format = models.CharField(
+    #     max_length=7,
+    #     choices=LearnFormat.choices,
+    #     default=LearnFormat.ONLINE,
+    # )
 
-    learn_format = models.CharField(
-        max_length=7,
-        choices=LearnFormat.choices,
-        default=LearnFormat.ONLINE,
-    )
 
     name = models.CharField(max_length=100, validators=[
         # RegexValidator(r'^[A-Za-z][A-Za-z0-9_\s]{2,100}$')
@@ -66,6 +94,10 @@ class SchoolModel(models.Model):
     cities = models.ManyToManyField(CityModel, related_name='cities')
     ages = models.ManyToManyField(AgeModel, related_name='ages')
     logo = models.ImageField(upload_to=SchoolUtils.upload_to, blank=True, default="")
+
+    learn_format = models.ManyToOneRel(max_length=100, validators=[
+        # RegexValidator(r'^[A-Za-z][A-Za-z0-9_\s]{2,100}$')
+    ], blank=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
