@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import SchoolModel, CityModel, AgeModel
+from .models import SchoolModel, CityModel, AgeModel, LearnFormatModel
 
 
 @admin.register(CityModel)
@@ -19,12 +19,24 @@ class AgeAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
+@admin.register(LearnFormatModel)
+class LearnFormatAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_display_links = ('id', 'name')
+    list_filter = ('name',)
+    search_fields = ('name',)
+
+
 class CityInline(admin.TabularInline):
     model = SchoolModel.cities.through
 
 
 class AgeInline(admin.TabularInline):
     model = AgeModel.ages.through
+
+
+class LearnFormatInline(admin.TabularInline):
+    model = LearnFormatModel.learn_formats.through
 
 
 @admin.register(SchoolModel)
@@ -37,5 +49,6 @@ class SchoolAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     inlines = [
         CityInline,
-        AgeInline
+        AgeInline,
+        LearnFormatInline,
     ]

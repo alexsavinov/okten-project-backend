@@ -83,6 +83,8 @@ def school_create_update(school, request):
     school.name = request.data.get('name')
     school.about = request.data.get('about')
     school.cities.set([item.get('id') for item in request.data.get('cities')])
+    school.ages.set([item.get('id') for item in request.data.get('ages')])
+    school.learn_formats.set([item.get('id') for item in request.data.get('learn_formats')])
     # school.ages.set([item.get(0) for item in request.data.get('ages')])
     school.save()
 
