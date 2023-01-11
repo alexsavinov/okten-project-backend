@@ -2,7 +2,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 
 from utils.school_util import SchoolUtils
-from django.utils.translation import gettext_lazy as _
+# from django.utils.translation import gettext_lazy as _
 
 
 # name / Назва школи
@@ -36,32 +36,32 @@ class CityModel(models.Model):
         return self.name
 
 
-class AgeModel(models.Model):
-    class Meta:
-        db_table = 'ages'
-        verbose_name = 'Ages'
-        verbose_name_plural = 'Ages'
-        ordering = ['name', ]
+# class AgeModel(models.Model):
+#     class Meta:
+#         db_table = 'ages'
+#         verbose_name = 'Ages'
+#         verbose_name_plural = 'Ages'
+#         ordering = ['name', ]
+#
+#     name = models.CharField(max_length=30, validators=[
+#         # RegexValidator(r'^[A-Za-z][A-Za-z0-9_]{2,30}$')
+#     ], blank=False)
+#
+#     def __str__(self):
+#         return self.name
 
-    name = models.CharField(max_length=30, validators=[
-        # RegexValidator(r'^[A-Za-z][A-Za-z0-9_]{2,30}$')
-    ], blank=False)
 
-    def __str__(self):
-        return self.name
-
-
-class LearnFormatModel(models.Model):
-    class Meta:
-        db_table = 'learn_formats'
-        verbose_name = 'Learn formats'
-        verbose_name_plural = 'Learn formats'
-        ordering = ['name', ]
-
-    name = models.CharField(max_length=30, blank=False)
-
-    def __str__(self):
-        return self.name
+# class LearnFormatModel(models.Model):
+#     class Meta:
+#         db_table = 'learn_formats'
+#         verbose_name = 'Learn formats'
+#         verbose_name_plural = 'Learn formats'
+#         ordering = ['name', ]
+#
+#     name = models.CharField(max_length=30, blank=False)
+#
+#     def __str__(self):
+#         return self.name
 
 
 class SchoolModel(models.Model):
@@ -93,8 +93,8 @@ class SchoolModel(models.Model):
 
     # city = models.ForeignKey(CityModel, on_delete=models.CASCADE, related_name='cities')
     cities = models.ManyToManyField(CityModel, related_name='cities')
-    ages = models.ManyToManyField(AgeModel, related_name='ages')
-    learn_formats = models.ManyToManyField(LearnFormatModel, related_name='learn_formats')
+    # ages = models.ManyToManyField(AgeModel, related_name='ages')
+    # learn_formats = models.ManyToManyField(LearnFormatModel, related_name='learn_formats')
 
     logo = models.ImageField(upload_to=SchoolUtils.upload_to, blank=True, default='')
 
