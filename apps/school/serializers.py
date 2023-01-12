@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from .models import SchoolModel, CityModel, AgeModel
+from .models import SchoolModel, CityModel, CommentModel
 
 
 class CitySerializer(ModelSerializer):
@@ -11,11 +11,18 @@ class CitySerializer(ModelSerializer):
         fields = ('id', 'name')
 
 
-class AgeSerializer(ModelSerializer):
+class CommentSerializer(ModelSerializer):
     class Meta:
-        model = AgeModel
-        # fields = '__all__'
-        fields = ('id', 'name')
+        model = CommentModel
+        fields = '__all__'
+        # fields = ('id', 'author', 'created_at')
+
+
+# class AgeSerializer(ModelSerializer):
+#     class Meta:
+#         model = AgeModel
+#         # fields = '__all__'
+#         fields = ('id', 'name')
 
 
 # class LearnFormatSerializer(ModelSerializer):
@@ -27,28 +34,30 @@ class AgeSerializer(ModelSerializer):
 
 class SchoolSerializer(ModelSerializer):
     cities = CitySerializer(many=True, read_only=False)
-    ages = AgeSerializer(many=True, read_only=False)
+    comments = CommentModel(many=True)
+
+    # ages = AgeSerializer(many=True, read_only=False)
     # learn_formats = LearnFormatSerializer(many=True, read_only=False)
-
     # logo = serializers.ReadOnlyField()
-
     # city = CitySerializer()
 
     class Meta:
         model = SchoolModel
         # read_only = ('logo',)
         fields = (
-            'id', 'name', 'about', 'about', 'logo',
+            'id', 'name', 'priority', 'logo', 'about',
+            'cities', 'homework', 'certificate', 'internship',
+            'site', 'facebook', 'instagram', 'telegram',
+            'tiktok', 'youtube', 'comments',
             'created_at', 'updated_at',
-            'cities', 'ages', 'learn_formats'
         )
-        extra_kwargs = {'logo': {'required': False}}
-        # extra_kwargs = {
-        #     'logo': {
-        #         'read_only': True,
-        #         'required': False
-        #     }
-        # }
+        # extra_kwargs = {'logo': {'required': False}}
+        extra_kwargs = {
+            'logo': {
+                'read_only': True,
+                'required': False
+            }
+        }
 
         # exclude = ('user',)read_only=True
 

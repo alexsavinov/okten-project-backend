@@ -3,9 +3,9 @@ from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveU
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from apps.school.filters import SchoolFilter, CityFilter
-from apps.school.models import SchoolModel, CityModel
-from apps.school.serializers import SchoolSerializer, AddLogoSerializer, CitySerializer
+from apps.school.filters import SchoolFilter, CityFilter, CommentFilter
+from apps.school.models import SchoolModel, CityModel, CommentModel
+from apps.school.serializers import SchoolSerializer, AddLogoSerializer, CitySerializer, CommentSerializer
 from apps.user.permissons import IsAdmin
 from utils.jwt_util import JwtUtils
 
@@ -83,8 +83,9 @@ def school_create_update(school, request):
     school.name = request.data.get('name')
     school.about = request.data.get('about')
     school.cities.set([item.get('id') for item in request.data.get('cities')])
-    school.ages.set([item.get('id') for item in request.data.get('ages')])
-    school.learn_formats.set([item.get('id') for item in request.data.get('learn_formats')])
+    school.comments.set([item.get('id') for item in request.data.get('comments')])
+    # school.ages.set([item.get('id') for item in request.data.get('ages')])
+    # school.learn_formats.set([item.get('id') for item in request.data.get('learn_formats')])
     # school.ages.set([item.get(0) for item in request.data.get('ages')])
     school.save()
 
@@ -101,3 +102,10 @@ class CityListCreateView(ListCreateAPIView):
     serializer_class = CitySerializer
     queryset = CityModel.objects.all()
     filterset_class = CityFilter
+
+
+class CommentListCreateView(ListCreateAPIView):
+    # permission_classes = (IsAdmin,)
+    serializer_class = CommentSerializer
+    queryset = CommentModel.objects.all()
+    filterset_class = CommentFilter
