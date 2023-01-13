@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.validators import RegexValidator
 from django.db import models
 # from django.utils.translation import gettext_lazy as _
@@ -12,30 +14,10 @@ class CityModel(models.Model):
         verbose_name_plural = 'Cities'
         ordering = ['name', ]
 
-    name = models.CharField(max_length=30, validators=[
-        # RegexValidator(r'^[A-Za-z][A-Za-z0-9_]{2,30}$')
-    ], blank=False)
+    name = models.CharField(max_length=30, blank=False)
 
     def __str__(self):
         return self.name
-
-
-class CommentModel(models.Model):
-    class Meta:
-        db_table = 'comments'
-        verbose_name = 'Comments'
-        verbose_name_plural = 'Comments'
-        ordering = ['created_at', ]
-
-    text = models.CharField(max_length=300, blank=False)
-    author = models.CharField(max_length=100, blank=False)
-    # created_at = models.DateTimeField(auto_now_add=True)
-    # approved_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(blank=True)
-    approved_at = models.DateTimeField(blank=True)
-
-    def __str__(self):
-        return self.author
 
 
 class SchoolModel(models.Model):
@@ -104,6 +86,27 @@ class SchoolModel(models.Model):
     #     RegexValidator(r'^\+380[\d]{9}$', 'Invalid phone number ex. +380xxxxxxxxx')
     # ], blank=True)
     # user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='profile')
+
+
+class CommentModel(models.Model):
+    class Meta:
+        db_table = 'comments'
+        verbose_name = 'Comments'
+        verbose_name_plural = 'Comments'
+        ordering = ['created_at', ]
+
+    school = models.ForeignKey(SchoolModel, on_delete=models.CASCADE, related_name='comments')
+    author = models.CharField(max_length=200)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    approved_at = models.DateTimeField(blank=True, null=True)
+
+    def approve(self):
+        self.approved_at = datetime.datetime.now()
+        self.save()
+
+    def __str__(self):
+        return self.text
 
 # class AgeModel(models.Model):
 #     class Meta:
