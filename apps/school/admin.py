@@ -15,6 +15,18 @@ class CityInline(admin.TabularInline):
     model = SchoolModel.cities.through
 
 
+@admin.register(CommentModel)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'author', 'created_at', 'approved_at')
+    list_display_links = ('id', 'author')
+    list_filter = ('author',)
+    search_fields = ('author',)
+
+
+class CommentInline(admin.TabularInline):
+    model = SchoolModel.comments.through
+
+
 # class AgeInline(admin.TabularInline):
 #     model = AgeModel.ages.through
 #
@@ -33,6 +45,7 @@ class SchoolAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     inlines = [
         CityInline,
+        CommentInline,
         # AgeInline,
         # LearnFormatInline,
     ]

@@ -29,25 +29,27 @@ class CommentModel(models.Model):
 
     text = models.CharField(max_length=300, blank=False)
     author = models.CharField(max_length=100, blank=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    approved_at = models.DateTimeField(auto_now=True)
+    # created_at = models.DateTimeField(auto_now_add=True)
+    # approved_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(blank=True)
+    approved_at = models.DateTimeField(blank=True)
 
     def __str__(self):
-        return self.author + ' ' + self.created_at
+        return self.author
 
 
 class SchoolModel(models.Model):
     class Meta:
         db_table = 'school'
-        verbose_name = 'Catalog of schools'
-        verbose_name_plural = 'Catalog of schools'
+        verbose_name = 'Schools'
+        verbose_name_plural = 'Schools'
         ordering = ['name', ]
 
     # name / Назва школи -- string
     # priority / Пріоритет -- int
     # logo / Лого -- string
     # about / Про школу -- string
-    # city / Місто -- ManyToMany
+    # city / Місто -- ManyToManyField
     # homework / Перевірка ДЗ -- boolean
     # certificate / Сертифікат -- boolean
     # internship / Стажування -- boolean
@@ -57,7 +59,7 @@ class SchoolModel(models.Model):
     # telegram / Телеграм -- string
     # tiktok / Тікток -- string
     # youtube / Ютюб -- string
-    # comment / Залишити коментар -- ManyToOneRel
+    # comment / Залишити коментар -- ManyToManyField
 
     name = models.CharField(max_length=100, blank=False)
     priority = models.PositiveSmallIntegerField(blank=True, default=0)
@@ -73,7 +75,7 @@ class SchoolModel(models.Model):
     telegram = models.URLField
     tiktok = models.URLField
     youtube = models.URLField
-    # comments = models.ManyToOneRel(CommentModel, to='school', field_name='comment related_name='comments')
+    comments = models.ManyToManyField(CommentModel, related_name='comments')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

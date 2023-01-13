@@ -14,8 +14,8 @@ class CitySerializer(ModelSerializer):
 class CommentSerializer(ModelSerializer):
     class Meta:
         model = CommentModel
-        fields = '__all__'
-        # fields = ('id', 'author', 'created_at')
+        # fields = '__all__'
+        fields = ('id', 'author', 'text')
 
 
 # class AgeSerializer(ModelSerializer):
@@ -34,7 +34,7 @@ class CommentSerializer(ModelSerializer):
 
 class SchoolSerializer(ModelSerializer):
     cities = CitySerializer(many=True, read_only=False)
-    comments = CommentModel(many=True)
+    comments = CommentSerializer(many=True, read_only=False)
 
     # ages = AgeSerializer(many=True, read_only=False)
     # learn_formats = LearnFormatSerializer(many=True, read_only=False)
