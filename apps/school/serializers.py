@@ -18,23 +18,9 @@ class CommentSerializer(ModelSerializer):
         fields = ('id', 'author', 'text')
 
 
-# class AgeSerializer(ModelSerializer):
-#     class Meta:
-#         model = AgeModel
-#         # fields = '__all__'
-#         fields = ('id', 'name')
-
-
-# class LearnFormatSerializer(ModelSerializer):
-#     class Meta:
-#         model = LearnFormatModel
-#         # fields = '__all__'
-#         fields = ('id', 'name')
-
-
 class SchoolSerializer(ModelSerializer):
-    cities = CitySerializer(many=True, read_only=False)
-    comments = CommentSerializer(many=True, read_only=False)
+    cities = CitySerializer(many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
 
     # ages = AgeSerializer(many=True, read_only=False)
     # learn_formats = LearnFormatSerializer(many=True, read_only=False)
@@ -43,21 +29,24 @@ class SchoolSerializer(ModelSerializer):
 
     class Meta:
         model = SchoolModel
+        # fields = '__all__'
         # read_only = ('logo',)
         fields = (
-            'id', 'name', 'priority', 'logo', 'about',
-            'cities', 'homework', 'certificate', 'internship',
-            'site', 'facebook', 'instagram', 'telegram',
-            'tiktok', 'youtube', 'comments',
+            'id', 'name',
+            'priority', 'logo', 'about',
+            'homework', 'certificate', 'internship',
+            'site', 'facebook', 'instagram', 'telegram', 'tiktok', 'youtube',
             'created_at', 'updated_at',
+            'cities',
+            'comments',
         )
         # extra_kwargs = {'logo': {'required': False}}
-        extra_kwargs = {
-            'logo': {
-                'read_only': True,
-                'required': False
-            }
-        }
+        # extra_kwargs = {
+        #     'logo': {
+        #         'read_only': True,
+        #         'required': False
+        #     }
+        # }
 
         # exclude = ('user',)read_only=True
 
@@ -84,9 +73,22 @@ class AddLogoSerializer(ModelSerializer):
     class Meta:
         model = SchoolModel
         fields = ('logo',)
-        extra_kwargs = {
-            'logo': {
-                'read_only': False,
-                'required': True
-            }
-        }
+        # extra_kwargs = {
+        #     'logo': {
+        #         'read_only': False,
+        #         'required': False
+        #     }
+        # }
+
+# class AgeSerializer(ModelSerializer):
+#     class Meta:
+#         model = AgeModel
+#         # fields = '__all__'
+#         fields = ('id', 'name')
+
+
+# class LearnFormatSerializer(ModelSerializer):
+#     class Meta:
+#         model = LearnFormatModel
+#         # fields = '__all__'
+#         fields = ('id', 'name')
