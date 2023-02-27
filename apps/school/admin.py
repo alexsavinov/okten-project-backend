@@ -11,8 +11,8 @@ class CityAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
-class CityInline(admin.TabularInline):
-    model = SchoolModel.cities.through
+# class CityInline(admin.TabularInline):
+#     model = SchoolModel.cities.through
 
 
 @admin.register(CommentModel)
@@ -38,17 +38,19 @@ class CommentInline(admin.TabularInline):
 @admin.register(SchoolModel)
 class SchoolAdmin(admin.ModelAdmin):
     # list_display = ('id', 'name', 'about', 'city', 'created_at', 'updated_at')
-    list_display = ('id', 'name', 'about', 'created_at', 'updated_at')
+    list_display = ('id', 'name',
+                    # 'about',
+                    'created_at', 'updated_at')
     list_display_links = ('id', 'name')
     # list_editable = ('is_staff',)
     list_filter = ('name',)
     search_fields = ('name',)
-    inlines = [
-        CityInline,
-        CommentInline,
-        # AgeInline,
-        # LearnFormatInline,
-    ]
+    # inlines = [
+    #     CityInline,
+    #     CommentInline,
+    #     # AgeInline,
+    #     # LearnFormatInline,
+    # ]
 
 # @admin.register(AgeModel)
 # class AgeAdmin(admin.ModelAdmin):

@@ -45,19 +45,18 @@ class SchoolModel(models.Model):
 
     name = models.CharField(max_length=100, blank=False)
     priority = models.PositiveSmallIntegerField(blank=True, default=0)
-    logo = models.ImageField(upload_to=SchoolUtils.upload_to, blank=True, default='')
+    logo = models.ImageField(upload_to=SchoolUtils.upload_to, blank=True)
     about = models.TextField(max_length=300, blank=True)
-    cities = models.ManyToManyField(CityModel, related_name='cities')
-    homework = models.BooleanField
-    certificate = models.BooleanField
-    internship = models.BooleanField
-    site = models.URLField
-    facebook = models.URLField
-    instagram = models.URLField
-    telegram = models.URLField
-    tiktok = models.URLField
-    youtube = models.URLField
-    # comments = models.ForeignKey(CommentModel, on_delete=models.CASCADE)
+    cities = models.ManyToManyField(CityModel, related_name='cities', blank=True)
+    homework = models.BooleanField(default=False)
+    certificate = models.BooleanField(default=False)
+    internship = models.BooleanField(default=False)
+    site = models.URLField(default='')
+    facebook = models.URLField(default='')
+    instagram = models.URLField(default='')
+    telegram = models.URLField(default='')
+    tiktok = models.URLField(default='')
+    youtube = models.URLField(default='')
     # comments = models.ForeignKey(CommentModel, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
